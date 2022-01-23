@@ -27,7 +27,7 @@ const webSocketProject = require('./controllers/webSocketProject')
 
 // const https = require("http");
 // const server = https.createServer(app);
-const WebSocket = require("ws");
+//const WebSocket = require("ws");
 
 
 const start = async () => {
@@ -39,17 +39,17 @@ const start = async () => {
 
         //const webSocketServer = new WebSocket.Server({ server });
 
-        const wss = new WebSocket('ws://192.168.0.107:81');
+        //const wss = new WebSocket('ws://192.168.0.107:81');
         app.ws('/ws', (ws, req) => {
-                wss.on('open', function open() {
-                    wss.send(JSON.stringify({
-                        id: '1',
-                        username: 'username',
-                        method: "connection",
-                    }));
-                });
+                // wss.on('open', function open() {
+                //     wss.send(JSON.stringify({
+                //         id: '1',
+                //         username: 'username',
+                //         method: "connection",
+                //     }));
+                // });
             ws.on('message', (msg) => {
-                wss.send(msg);
+                //wss.send(msg);
                 msg = JSON.parse(msg)
                 webSocketProject.webSocketFunction(msg, aWss, ws)
             })

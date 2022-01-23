@@ -27,7 +27,7 @@ const webSocketProject = require('./controllers/webSocketProject')
 
 // const https = require("http");
 // const server = https.createServer(app);
-// const WebSocket = require("ws");
+const WebSocket = require("ws");
 
 
 const start = async () => {
@@ -38,7 +38,23 @@ const start = async () => {
 
 
         //const webSocketServer = new WebSocket.Server({ server });
-        //const wss = new WebSocket(process.env.REACT_APP_API_URL_WS);
+        const wss = new WebSocket(process.env.REACT_APP_API_URL_WS);
+
+        app.ws('/ws', (ws, req) => {
+                wss.on('open', function open() {
+                    wss.send(JSON.stringify({
+                        id: '1',
+                        username: 'username',
+                        method: "connection",
+                    }));
+                });
+            ws.on('message', (msg) => {
+                wss.send(msg);
+                msg = JSON.parse(msg)
+                webSocketProject.webSocketFunction(msg, aWss, ws)
+            })
+        })
+
 
         // webSocketServer.on('connection', ws => {
         //
@@ -76,14 +92,6 @@ const start = async () => {
         //         }
         //     });
         // });
-
-
-        app.ws('/ws', (ws, req) => {
-            ws.on('message', (msg) => {
-                msg = JSON.parse(msg)
-                webSocketProject.webSocketFunction(msg, aWss, ws)
-            })
-        })
 
         app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
     } catch (e) {

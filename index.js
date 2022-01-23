@@ -51,7 +51,7 @@ const start = async () => {
             ws.on('message', (msg) => {
                 wss.send(msg);
                 msg = JSON.parse(msg)
-                webSocketProject.webSocketFunction(msg, aWss, ws, wss)
+                webSocketProject.webSocketFunction(msg, aWss, ws)
             })
         })
 

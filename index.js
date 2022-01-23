@@ -38,7 +38,7 @@ const start = async () => {
 
 
         const webSocketServer = new WebSocket.Server({ server });
-        const wss = new WebSocket('ws://192.168.0.107:81');
+        const wss = new WebSocket(process.env.REACT_APP_API_URL_WS);
 
         webSocketServer.on('connection', ws => {
 

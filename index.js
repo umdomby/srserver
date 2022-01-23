@@ -39,7 +39,7 @@ const start = async () => {
 
         //const webSocketServer = new WebSocket.Server({ server });
 
-        const wss = new WebSocket(process.env.REACT_APP_API_URL_WS);
+        const wss = new WebSocket('ws://192.168.0.107:81');
         app.ws('/ws', (ws, req) => {
                 wss.on('open', function open() {
                     wss.send(JSON.stringify({

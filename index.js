@@ -21,13 +21,13 @@ app.use('/api', router)
 // Обработка ошибок, последний Middleware
 app.use(errorHandler)
 
-// const WSServer = require('express-ws')(app);
-// const aWss = WSServer.getWss()
-// const webSocketProject = require('./controllers/webSocketProject')
+const WSServer = require('express-ws')(app);
+const aWss = WSServer.getWss()
+const webSocketProject = require('./controllers/webSocketProject')
 
-const http = require("http");
-const server = http.createServer(app);
-const WebSocket = require( "ws");
+// const https = require("http");
+// const server = https.createServer(app);
+// const WebSocket = require("ws");
 
 
 const start = async () => {
@@ -37,24 +37,24 @@ const start = async () => {
             .catch(err => console.error("Connection error", err));
 
 
-        const webSocketServer = new WebSocket.Server({ server });
-        const wss = new WebSocket(process.env.REACT_APP_API_URL_WS);
+        //const webSocketServer = new WebSocket.Server({ server });
+        //const wss = new WebSocket(process.env.REACT_APP_API_URL_WS);
 
-        webSocketServer.on('connection', ws => {
-
-            wss.on('open', function open() {
-                wss.send(JSON.stringify({
-                    id: '1',
-                    username: 'username',
-                    method: "connection",
-                }));
-            });
-
-            ws.on('message', m => {
-                wss.send(m);
-                webSocketServer.clients.forEach(client => client.send(m));
-            });
-        });
+        // webSocketServer.on('connection', ws => {
+        //
+        //     wss.on('open', function open() {
+        //         wss.send(JSON.stringify({
+        //             id: '1',
+        //             username: 'username',
+        //             method: "connection",
+        //         }));
+        //     });
+        //
+        //     ws.on('message', m => {
+        //         wss.send(m);
+        //         webSocketServer.clients.forEach(client => client.send(m));
+        //     });
+        // });
 
 
         //const wsESP = new WebSocket('ws://192.168.0.107:81');
@@ -78,14 +78,14 @@ const start = async () => {
         // });
 
 
-        // app.ws('/ws', (ws, req) => {
-        //     ws.on('message', (msg) => {
-        //         msg = JSON.parse(msg)
-        //         webSocketProject.webSocketFunction(msg, aWss, ws)
-        //     })
-        // })
+        app.ws('/ws', (ws, req) => {
+            ws.on('message', (msg) => {
+                msg = JSON.parse(msg)
+                webSocketProject.webSocketFunction(msg, aWss, ws)
+            })
+        })
 
-        server.listen(PORT, () => console.log(`Server started on port ${PORT}`))
+        app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
     } catch (e) {
         console.log(e)
     }

@@ -27,9 +27,10 @@ const webSocketProject = require('./controllers/webSocketProject')
 
 // const https = require("http");
 // const server = https.createServer(app);
-//const WebSocket = require("ws");
 
-const dgram = require('dgram');
+const WebSocket = require("ws");
+
+//const dgram = require('dgram');
 
 
 
@@ -42,28 +43,28 @@ const start = async () => {
 
         //const webSocketServer = new WebSocket.Server({ server });
 
-        //const wss = new WebSocket('ws://192.168.0.107:81');
+        const wsESP = new WebSocket('ws://192.168.0.107:81');
         app.ws('/ws', (ws, req) => {
-                // wss.on('open', function open() {
-                //     wss.send(JSON.stringify({
-                //         id: '1',
-                //         username: 'username',
-                //         method: "connection",
-                //     }));
-                // });
-            ws.on('message', (msg) => {
-                //wss.send(msg);
-
-                const PORT_UDP = 1234;
-                const HOST = '93.125.10.70';
-                const message = new Buffer('My KungFu is Good!');
-
-                const client = dgram.createSocket('udp4');
-                client.send(message, 0, message.length, PORT_UDP, HOST, function(err, bytes) {
-                    if (err) throw err;
-                    console.log('UDP message sent to ' + HOST +':'+ PORT_UDP);
-                    client.close();
+                wsESP.on('open', function open() {
+                    wsESP.send(JSON.stringify({
+                        id: '1',
+                        username: 'username',
+                        method: "connection",
+                    }));
                 });
+            ws.on('message', (msg) => {
+                wsESP.send(msg);
+
+                // const PORT_UDP = 1234;
+                // const HOST = '93.125.10.70';
+                // const message = new Buffer('My KungFu is Good!');
+                //
+                // const client = dgram.createSocket('udp4');
+                // client.send(message, 0, message.length, PORT_UDP, HOST, function(err, bytes) {
+                //     if (err) throw err;
+                //     console.log('UDP message sent to ' + HOST +':'+ PORT_UDP);
+                //     client.close();
+                // });
 
                 msg = JSON.parse(msg)
                 webSocketProject.webSocketFunction(msg, aWss, ws)

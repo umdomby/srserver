@@ -54,7 +54,7 @@ const start = async () => {
             ws.on('message', (msg) => {
                 //wss.send(msg);
 
-                const PORT_UDP = 82;
+                const PORT_UDP = 1234;
                 const HOST = '93.125.10.70';
                 const message = new Buffer('My KungFu is Good!');
 

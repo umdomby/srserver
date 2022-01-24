@@ -29,6 +29,10 @@ const webSocketProject = require('./controllers/webSocketProject')
 // const server = https.createServer(app);
 //const WebSocket = require("ws");
 
+const dgram = require('dgram');
+const PORT_UDP = 1234;
+const HOST = '93.125.10.70';
+
 
 const start = async () => {
     try {
@@ -51,16 +55,12 @@ const start = async () => {
             ws.on('message', (msg) => {
                 //wss.send(msg);
 
-                var PORT = 1234;
-                var HOST = '93.125.10.70';
+                const message = new Buffer('My KungFu is Good!');
 
-                var dgram = require('dgram');
-                var message = new Buffer('My KungFu is Good!');
-
-                var client = dgram.createSocket('udp4');
-                client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+                const client = dgram.createSocket('udp4');
+                client.send(message, 0, message.length, PORT_UDP, HOST, function(err, bytes) {
                     if (err) throw err;
-                    console.log('UDP message sent to ' + HOST +':'+ PORT);
+                    console.log('UDP message sent to ' + HOST +':'+ PORT_UDP);
                     client.close();
                 });
 

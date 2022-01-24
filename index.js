@@ -52,7 +52,7 @@ const start = async () => {
                 //wss.send(msg);
 
                 var PORT = 1234;
-                var HOST = '192.168.0.107';
+                var HOST = '93.125.10.70';
 
                 var dgram = require('dgram');
                 var message = new Buffer('My KungFu is Good!');
